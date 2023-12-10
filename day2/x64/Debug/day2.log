@@ -1,0 +1,8 @@
+﻿  main.cpp
+D:\Programming\C++\AdventOfCode\day2\main.cpp(84,11): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Programming\C++\AdventOfCode\day2\main.cpp(89,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Programming\C++\AdventOfCode\day2\main.cpp(95,15): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Programming\C++\AdventOfCode\day2\main.cpp(103,17): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Programming\C++\AdventOfCode\day2\main.cpp(111,16): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\Programming\C++\AdventOfCode\day2\main.cpp(120,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  day2.vcxproj -> D:\Programming\C++\AdventOfCode\day2\x64\Debug\day2.exe
