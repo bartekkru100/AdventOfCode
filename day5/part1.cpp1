@@ -1,0 +1,107 @@
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <vector>
+#include <map>
+#include <unordered_map>
+#include <chrono>
+#include <cmath>
+
+int nIntDigits(__int64 num)
+{
+	int nDigits = 1;
+	for (__int64 multiplier = 10; num >= multiplier; multiplier *= 10, nDigits++);
+	return nDigits;
+}
+
+int main()
+{
+	auto begin = std::chrono::high_resolution_clock::now();
+	std::fstream file("input.txt");
+	if (!file.is_open())
+	{
+		return 1;
+	}
+
+	std::vector<__int64> seeds;
+	std::string line;
+	std::getline(file, line);
+	size_t pos = line.find(':') + 2;
+	for (; pos < line.size(); pos++)
+	{
+		if (isdigit(line[pos]))
+		{
+			seeds.push_back(atoll(&line[pos]));
+			pos += nIntDigits(seeds.back());
+		}
+	}
+
+	std::vector<__int64> destinStart;
+	std::vector<__int64> sourceStart;
+	std::vector<__int64> rangeLength;
+
+	std::unordered_map<__int64, __int64> seedToDestin;
+	for (auto seed : seeds)
+	{
+		seedToDestin[seed] = seed;
+	}
+
+	std::getline(file, line);
+	while (!file.eof())
+	{
+		destinStart.clear();
+		sourceStart.clear();
+		rangeLength.clear();
+
+		std::getline(file, line);
+		//std::cout << line << '\n';
+		while (std::getline(file, line))
+		{
+			if (!isdigit(line[0]))break;
+			pos = 0;
+			destinStart.push_back(atoll(&line[pos]));
+			pos += nIntDigits(destinStart.back()) + 1;
+			sourceStart.push_back(atoll(&line[pos]));
+			pos += nIntDigits(sourceStart.back()) + 1;
+			rangeLength.push_back(atoll(&line[pos]));
+		}
+
+
+		for (auto seed : seeds)
+		{
+			bool isMapped = false;
+			for (int i = 0; i < destinStart.size(); i++)
+			{
+				int seedDistance = seedToDestin[seed] - sourceStart[i];
+				if (seedDistance <= rangeLength[i] && seedDistance >= 0)
+				{
+					seedToDestin[seed] = destinStart[i] + seedDistance;
+					isMapped = true;
+					break;
+				}
+			}
+			if (!isMapped)
+			{
+				seedToDestin[seed] = seedToDestin[seed];
+			}
+			//std::cout << seed << '\t' << seedToDestin[seed] << '\n';
+		}
+	}
+	__int64 lowestLocationNum = INT64_MAX;
+	for (auto seed : seeds)
+	{
+		//std::cout << seed << '\t' << seedToDestin[seed] << '\n';
+		if (seedToDestin[seed] < lowestLocationNum)
+		{
+			lowestLocationNum = seedToDestin[seed];
+		}
+	}
+	auto end = std::chrono::high_resolution_clock::now();
+	auto elapsed = end - begin;
+	std::cout << "lowest location number: " << lowestLocationNum << '\n';
+	std::cout << "exec time: " << elapsed.count() / 1e6 << "ms\n";
+
+	file.close();
+	return 0;
+}

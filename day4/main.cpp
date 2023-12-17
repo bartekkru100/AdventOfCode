@@ -146,7 +146,8 @@ int main(int argc, char* argv[])
 		//std::cout << "card " << card.number << ": " << '\n';
 		sumCards += countCards(card, cards, cardsSize) + 1;
 	}
-
+	auto end = std::chrono::high_resolution_clock::now();
+	auto elapsed = end - begin;
 	std::cout << "Sum of values: " << sumValue << std::endl;
 	std::cout << "Sum of cards: " << sumCards << std::endl;
 	std::cout << "exec time: " << elapsed.count()/1e6 << "ms\n";
